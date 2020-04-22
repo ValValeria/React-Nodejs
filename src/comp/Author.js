@@ -16,7 +16,7 @@ export default class Author extends React.Component{
    
     componentDidMount(){
                 console.log(this.props)
-                fetch('http://localhost:8000/author/'+this.props.match.params.id)
+                fetch('/author/'+this.props.match.params.id)
                 .then(resp=>resp.json())
                 .then(json=>{
                     this.context.posts=json

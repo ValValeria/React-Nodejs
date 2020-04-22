@@ -17,7 +17,7 @@ class Main extends React.Component{
             }
         }
         static getPosts(){
-            return fetch('http://localhost:8000/getposts').then(resp=>resp.json())
+            return fetch('/getposts').then(resp=>resp.json())
         }
         static getDerivedStateFromProps(_props, state){
             console.log(state.slider)

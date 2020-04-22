@@ -17,7 +17,7 @@ class SpecialArticle extends React.Component{
         
        static getPosts(number){
         if(!number) throw new SyntaxError('Fill in number');
-        return fetch('http://localhost:8000/getpost/'+number).then(resp=>resp.json())
+        return fetch('/getpost/'+number).then(resp=>resp.json())
        }
 
        do(){        
