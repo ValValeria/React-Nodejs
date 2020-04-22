@@ -11,6 +11,8 @@ import validator from 'validator'
 
 let app=express()
 const dir=path.dirname(__dirname)
+const http=require('http').Server(app)
+
 const index=path.join(dir,'build','index.html')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser');
@@ -475,7 +477,7 @@ app.get('*',(req,resp,next)=>{
 
 app.use(express.static(path.join(dir,'build')))
 
-app.listen(process.env.PORT ||8000,()=>console.log('app is running'))
+http.listen(process.env.PORT,()=>console.log('app is running'))
 
 process.on('uncaughtException', err => {
     console.error('There was an uncaught error', err.message)
