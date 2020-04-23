@@ -1,1 +1,1 @@
-web npm run ssrendering
+web: node server/index.js

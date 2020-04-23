@@ -409,7 +409,6 @@ function get_author(data,full=true){
                     for(let pr of prop){
                         delete result[0][pr]
                     }
-                    console.log(full);
                     if(full) { fields.push(Object.assign(post.post,{author:result[0]},{full:true}))}
                     else {
                         function * range(end){
@@ -451,7 +450,6 @@ app.get('*',(req,resp,next)=>{
     if (mimes.includes(path.extname(req.path).slice(1))) return next();
 
     fs.readFile(index,'utf8',(error,data)=>{
-         console.log(req.url)
          
 
          fetch(obj.url) .then(res=>res.json()) 

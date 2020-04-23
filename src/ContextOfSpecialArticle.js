@@ -15,31 +15,45 @@ export default function(props){
 
     console.log('in content special article')
 
-    let text=elem.text && elem.text.filter(elem=>elem.length>0)//lines
-    let code=elem.code && elem.code.filter(elem=>elem.length>0)//lines
+    let text=elem.text//lines
+    let code=elem.code//lines
 
-    console.log(text)
-    console.log(code)
-
+  
     if(!text && !code) return <div className="loads">Loading...</div>
     
-
-   let   lines_of_text=text? text.map((elem,index)=>{
-       if(elem[0]) {
-          if(typeof elem[0]=='object'){
-             return elem[0].image ?<div className="image5" key ={index+Math.random()}><img src={elem[0].image} key={index+Math.random()}/> </div>:  (elem[0].h1?<h1 class="title_of_art" key={index+Math.random()}>{elem[0].h1}</h1>:null)
-         } 
-       return elem[0].length>0 && <div key={index+Math.random()}>{elem[0]}</div>
-      }
-  }) :null 
- 
+    let lines_of_text=[]
     
-    let lines_of_code=code ? code.map((elem,index)=>{
-        if(elem.length>0) {
-            return <div key={index+Math.random()}>{elem}</div>
+    if(Array.isArray(text)){
+        for(let line of text){
+                if(typeof line[0]=='object' && line[0]!=null){
+                    
+                    let elem=()=>{
+                        if(line[0].image){
+                            return <div className="image5" key ={Math.random()}><img src={line[0].image} key={Math.random()}/> </div>
+                        }else if(line[0].h1){
+                           return <h1 class="title_of_art" key={Math.random()}>{line[0].h1}</h1>
+                        }
+                    }
+                    lines_of_text.push(elem())
+                }else if(typeof line[0]=='string' && line[0].length>0){
+                    lines_of_text.push(<div key={Math.random()}>{line[0]}</div>)
+                }
+            
         }
-    }):null
-    let code1=<div className={"code"}>{lines_of_code}</div>
+    }    
+
+    let lines_of_code=[]
+    if(Array.isArray(code)){
+        for(let elem of code){
+            if(elem){
+             if(elem.length>0) lines_of_code.push(<div key={Math.random()}>{elem}</div>)
+            }
+        }
+       
+    }
+    
+    let code1=lines_of_code.length>0 && <div className={"code"}>{lines_of_code}</div>
+
     array.push (
         <div key={Math.random()}>
                  <div className={'text'} >{lines_of_text}</div>

@@ -2,6 +2,7 @@
   "name": "please",
   "version": "0.1.0",
   "private": true,
+  "main":"server/index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -26,10 +27,13 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "ssrendering": "node server/index.js"
+    "ssr": "node server/index.js"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "engines": {
+    "node": "12.x"
   },
   "browserslist": {
     "production": [

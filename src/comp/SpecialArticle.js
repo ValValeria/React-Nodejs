@@ -42,9 +42,12 @@ class SpecialArticle extends React.Component{
         }
         
        back(){
-           console.log('back')
-           let i=this.props.history.go(-1)
-           console.log(i)
+           console.log(this.props)
+           if(this.props.history.length==1){
+               this.props.history.push('/')
+           }else{
+            this.props.history.go(-1)
+           }
        } 
        render(){
            let find=elem=>elem['id']==this.props.match.params.numberId;
