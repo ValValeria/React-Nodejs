@@ -5,6 +5,7 @@ import Banner from './Banner'
 
 import AboutUs from './about.js'
 import Art from '../articleWithData'
+import Banner2 from '../Banner2'
 class Main extends React.Component{
         constructor(props){
             super(props)
@@ -17,7 +18,7 @@ class Main extends React.Component{
             }
         }
         static getPosts(){
-            return fetch('/getposts').then(resp=>resp.json())
+            return fetch(window.location.origin+'/getposts').then(resp=>resp.json())
         }
         static getDerivedStateFromProps(_props, state){
             console.log(state.slider)
@@ -76,8 +77,9 @@ class Main extends React.Component{
                 else if(typeof content!=='object'){
                     return null
                 }
-                let  text= content[0].text[0][0]
-                return (<Article key={index} index={index+1}maxElem={array.length} title={elem['title']} content={text} id={elem['id']} hasNext={array[index+1]? true :false} hasPrev={array[index-1]? true :false}author={elem['author']}/>)
+                let  text= content[0].text.find(elem=>elem[0].length>0)
+                
+                return (<Article key={index} index={index+1} title={elem['title']} content={text} id={elem['id']} author={elem['author']}/>)
             };
 
             let articles=this.context.data.posts.length>0 ? this.context.data.posts.map(map) :null
@@ -96,6 +98,7 @@ class Main extends React.Component{
 
                  {loads? <div style={{textAlign:'center',margin:"20px"}} >Loading...</div>:  el
                  }
+                 <Banner2/>
              </main>
             )
         

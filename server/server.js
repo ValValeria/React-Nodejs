@@ -10,9 +10,8 @@ import regeneratorRuntime from "regenerator-runtime";
 import validator from 'validator'
 
 let app=express()
+const PORT=process.env.PORT||8000
 const dir=path.dirname(__dirname)
-const http=require('http').Server(app)
-
 const index=path.join(dir,'build','index.html')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser');
@@ -22,7 +21,7 @@ const upload = multer({dest:path.join(path.dirname(__dirname),'public','images')
 
 
 const obj={
-    url:'http://localhost:8000/getposts',
+    url:null,
     status:'guest'
 };
 
@@ -68,6 +67,7 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
 
 
 app.use(upload.array('photoes', 12),(req,resp,next)=>{
+    obj.url=req.protocol+"://"+req.hostname+':'+PORT+'/getposts'
     let id=req.cookies.auth || req.query.user_id  || req.body.user_id
     resp.set('Access-Control-Allow-Origin', '*');
     
@@ -214,10 +214,14 @@ app.get('/getpost/:number',(req,resp)=>{
     let number=req.params.number;
     mysql.execute('SELECT * FROM posts WHERE id=?',[number])
     .then(res=>{
+        console.log('in getpost start')
+
         if(res[0].length==0) return []
         return get_author(res[0],true)
      })
     .then(result=>{
+        console.log('in getpost end')
+
        resp.set('Access-Control-Allow-Origin', '*');
        resp.json(result)
        resp.end()
@@ -333,6 +337,8 @@ app.post('/adduser',(req,resp)=>{
 app.get('/getposts',(req,resp)=>{
      mysql.execute('SELECT * FROM posts LIMIT 4')
      .then(res=>{
+        console.log('in getposts start')
+
         if(res[0].length==0) return [];
         return get_author(res[0],false)
 
@@ -342,6 +348,7 @@ app.get('/getposts',(req,resp)=>{
         resp.set('Access-Control-Allow-Origin', '*');
         resp.json(result)
         resp.end()
+        return result
      })
      .catch((_error)=>{
          resp.status(500)
@@ -349,15 +356,12 @@ app.get('/getposts',(req,resp)=>{
 })
 
 app.get('/post/:number',(req,_resp,next)=>{
-    obj.url='http://localhost:8000/getpost/'+req.params.number;
+    obj.url=req.protocol+"://"+req.hostname+':'+PORT+'/getpost/'+req.params.number
     next();
 })
-app.get('/register',(_req,_resp,next)=>{
-    obj.url='http://localhost:8000/getpost/'+req.params.number;
-    next();
-})
+
 app.get('/post/author/:id',(req,_resp,next)=>{
-    obj.url='http://localhost:8000/author/'+req.params.id;
+    obj.url=req.protocol+"://"+req.hostname+':'+PORT+'/author/'+ +req.params.id
     next();
 })
 
@@ -403,9 +407,10 @@ function get_author(data,full=true){
                     console.log('in as ()')
                     let prop=['password','remember_token','role_id']
                     for(let pr of prop){
-                        delete result[pr]
+                        delete result[0][pr]
                     }
-                    if(full) { fields.push(Object.assign(post.post,{author:result[0]},{full:full}))}
+                    console.log(full);
+                    if(full) { fields.push(Object.assign(post.post,{author:result[0]},{full:true}))}
                     else {
                         function * range(end){
                             for(let i=0;i<end;i++){
@@ -449,7 +454,7 @@ app.get('*',(req,resp,next)=>{
          console.log(req.url)
          
 
-         fetch(obj.url) .then(res=>res.json()) .then(result=>get_author(result))
+         fetch(obj.url) .then(res=>res.json()) 
          .then(json=>{
             let data_for={posts:json,status:obj.status,user:user};
             if (error!=null){
@@ -477,7 +482,7 @@ app.get('*',(req,resp,next)=>{
 
 app.use(express.static(path.join(dir,'build')))
 
-http.listen(process.env.PORT,()=>console.log('app is running'))
+app.listen(PORT,()=>console.log('app is running'))
 
 process.on('uncaughtException', err => {
     console.error('There was an uncaught error', err.message)

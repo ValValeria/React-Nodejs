@@ -16,28 +16,30 @@ export default class Author extends React.Component{
    
     componentDidMount(){
                 console.log(this.props)
-                fetch('/author/'+this.props.match.params.id)
+                fetch(window.location.origin+'/author/'+this.props.match.params.id)
                 .then(resp=>resp.json())
                 .then(json=>{
                     this.context.posts=json
-                    this.setState((_state,_props)=>{
-                        return {
-                            loads:false,
-                            postsLength:json.length
-                        }              
-                    })
+                    if(json){
+                        this.setState((_state,_props)=>{
+                            return {
+                                loads:false,
+                                postsLength:json.length
+                            }              
+                        })
+                    }
+                 
                 })                     
     }
     render(){
      
-        let find=elem=>elem['author']['id']==Number(this.state.id);
+        let find=elem=>elem['author']['id']==Number(this.props.match.params.id);
         let data=this.context.data.posts && this.context.data.posts.filter(find)
         let loads=this.state.loads
-
-        if(!data){
+        
+        if(data.length==0){
           loads=true
         }
-       
         return (
             <main className="pad_top_30">
 

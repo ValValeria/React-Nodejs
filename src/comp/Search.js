@@ -12,7 +12,7 @@ export default function (props){
     let reducer=async ()=>{  
             if(ref.current.value.length>0){
 
-                let response =await fetch('/findQuery/?string='+ref.current.value)
+                let response =await fetch(window.location.origin+'/findQuery/?string='+ref.current.value)
                 if(response.ok){
                    let json=await response.json();
                    if(json.length==0){

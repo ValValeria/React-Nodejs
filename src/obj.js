@@ -7,12 +7,16 @@ let obj1=(link)=>
     urlRedirect:null,
     set posts(array){
      if(!Array.isArray(array)) throw new Error('Must be an array')
+     let keys=array.map(elem=>elem.id)
      link.setState(((state,_props)=>{
-      let indexs=array.map(elem=>elem['id'])
-      let newarray=state.posts.filter(elem=>!indexs.includes(elem['id']))
-
+       
+      let newarray=state.posts.filter(elem=> !keys.includes(elem['id']))
+  
       return {posts:newarray.concat(array)}
      }))
+    },
+    get posts(){
+       return this.data.posts
     },
     action:{
      login(email,password){

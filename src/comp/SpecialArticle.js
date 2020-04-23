@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Context from '../context.js'
 import Corusel from './Carusel'
+import Content from '../ContextOfSpecialArticle'
 class SpecialArticle extends React.Component{
 
        constructor(props){
@@ -12,101 +13,65 @@ class SpecialArticle extends React.Component{
                count:0,
                message:null
            }   
+           this.back=this.back.bind(this)
 
        }
         
        static getPosts(number){
         if(!number) throw new SyntaxError('Fill in number');
-        return fetch('/getpost/'+number).then(resp=>resp.json())
+        return fetch(window.location.origin+'/getpost/'+number).then(resp=>resp.json())
        }
 
-       do(){        
-        var content=JSON.parse(this.state.post.content)
-        var array=[]
-        for(let elem of content){
-            let text=this.process(elem.text);
-            let code=this.process(elem.code);
-            array.push({text:text,code:code})
-        }
-       }
-      
+       
        componentDidMount(){
         let find=elem=>elem['id']==this.props.match.params.numberId;
         let cont=this.context.data.posts.length>0 && this.context.data.posts.find(find) 
+        console.log(cont)
         if(!cont || !cont.full){//??
             SpecialArticle.getPosts(this.props.match.params.numberId)
             .then(json=>{
                 if(!json){
                     this.setState((_state)=>(
-                      { message:"Can't find this article "}))
+                      { message:"Can't find this article ",
+                      loads:false
+                    }))
                 }
                 this.context.posts=json
             })  
         }       
         }
         
+       back(){
+           console.log('back')
+           let i=this.props.history.go(-1)
+           console.log(i)
+       } 
        render(){
            let find=elem=>elem['id']==this.props.match.params.numberId;
-           let cont=this.context.data.posts.length>0 && this.context.data.posts.find(find) 
+           let cont=this.context.posts.find(find) 
    
            let loads=this.state.loads;
 
-           if(!cont || !cont.content){
+           if(!cont || !cont.content ){
                loads=true
+               console.log(1+'usu')
            }else{
-               console.log(typeof cont.content)
+                console.log(2+'usu')
+            
+                console.log(JSON.stringify(cont.content)+'usu')
 
-                let content;
-                if(typeof cont.content=='object'){
-                    content=cont.content
-                } 
-                else if (typeof cont.content=='string'){
-                    content=JSON.parse(cont.content)
-                }
-                else return <div className="loads">Loading...</div>
-
-               var array=[]
-               for(let elem of content){//Заголовки
-                   let text=elem.text && elem.text.filter(elem=>elem.length>0)//lines
-                   let code=elem.code && elem.code.filter(elem=>elem.length>0)//lines
-                   
-                   if(!text || !code) return <div className="loads">Loading...</div>
-                   
-                   
-                  let   lines_of_text=text.map((elem,index)=>{
-                      if(elem[0]) {
-                         if(typeof elem[0]=='object'){
-                            return elem[0].image ?<div className="image5" key ={index+Math.random()}><img src={elem[0].image} key={index+Math.random()}/> </div>:  (elem[0].h1?<h1 class="title_of_art" key={index+Math.random()}>{elem[0].h1}</h1>:null)
-                        } 
-                      return elem[0].length>0 && <div key={index+Math.random()}>{elem[0]}</div>
-                     }
-                 })     
+                var array=<Content content={this.context.posts.find(find) }/>
                 
-                   
-                   let lines_of_code= code.map((elem,index)=>{
-                       if(elem.length>0) {
-                           return <div key={index+Math.random()}>{elem}</div>
-                       }
-                       return null
-                   })
-                   array.push(
-                    <div key={Math.random()}>
-                       <div className={'text'} >{lines_of_text}</div>
-                       {code[0] && <div className={'code'}>{lines_of_code}</div>}
-                    </div>
-                   )
-               
-               }
             }
            let comp=()=>{
                return(
-                <article style={{paddingTop:"40px"}}>
+                <article style={{paddingTop:"40px"}} class={'spcArt'}>
                 <Corusel images={cont.images}/>
                 <h1 className="headline headline1">{cont.title}</h1>
                 <div className="css-124oy3v">
                     {array}
                 </div>
-                <Link  to ='/'className=" orange or">Обратно</Link>
+                <button  to ='/'className=" orange or" onClick={this.back}>Обратно</button>
                 </article>
                )
            }
@@ -115,7 +80,7 @@ class SpecialArticle extends React.Component{
                   
                  <header>
                      
-                     {!cont ? <div>Loading</div>:comp()}
+                     {loads ? <div className="loads">Loading</div>:comp()}
                    
                  </header>   
                                

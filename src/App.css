@@ -197,8 +197,7 @@ text-align:center;
   background-position: right bottom;
   background-repeat: no-repeat;
   width: 100vw;
-  max-height:90vh !important;
-    padding-top:30px;
+  padding-top:30px;
 }
 
 
@@ -345,6 +344,24 @@ text-align:center;
   justify-content: center;
   min-height: 60px !important;
   align-items: center;
+  filter: blur(0.4px);
+  box-shadow:
+  /*bottom shadow*/
+  0px 20px 20px rgba(0,0,0,0.2),
+  0px 5px 10px rgba(0,0,0,0.2),
+  /*long bottom shadow*/
+  0px 70px 50px rgba(0,0,0,0.4),
+  /*right shadow*/
+  30px 50px 50px rgba(0,0,0,0.2),
+  /*left shadow*/
+  -30px 50px 50px rgba(0,0,0,0.2),
+  /*right inset*/
+  inset 20px 0px 60px rgba(0,0,0,0.1),
+  /*left inset*/
+  inset -20px 0px 60px rgba(0,0,0,0.1);
+}
+.head_header{
+  background-color: #2d3436;
 }
 .ul1{
   justify-content: center;
@@ -563,8 +580,114 @@ text-align:center
 }
 .home-banner{
   min-height:90vh !important;
+  background: #25292d;
+  background-image: url(/dotsy.890f0c85.png);
+}
+#fk{
+  border-color:#61dafb;
+}
+.our_posts_title{
+  font-family:inherit
+}
+.sayh{
+  font-family:inherit
+}
+.skati .about_p{
+  font-family: 'Raleway', sans-serif;
+
+}
+.spcArt{
+  padding-bottom:60px;
+}
+.headlin2{
+  font-family: 'Raleway', sans-serif;
+}
+.blog1{
+  padding-bottom:40px;
+}
+.text{
+  font-family: 'Raleway', sans-serif;
+}
+#fk:hover{
+  box-shadow: 1px 20px 96px 21px rgba(97,218,251,1);
+  box-shadow: 1px 0px 96px 21px rgba(97,218,251,1);
+
+}
+.outerMinor h2{
+  padding-top:60px;
+}
+.aboutBook {
+  padding: 100px 0 70px;
+  max-width: 1370px;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center 156px;
+  background-color: #20232a
+}
+main{
+  padding-bottom:80px;
+}
+.aboutBook h2{
+  color:white
+}
+.slider{
+  padding-bottom:60px;
+}
+.outer, .outerMinor {
+  width: 100%;
+  margin: 0 auto;
+}
+.aboutBookImgWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.aboutBookImgWrap {
+  position: relative;
+}
+.aboutBookImgWrap .aboutBookImg1, .aboutBookImgWrap .aboutBookImg2, .aboutBookImgWrap .aboutBookImg3 {
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+  left: 0;
+  right: 0;
+  top: 40px;
+}
+.aboutBookImgWrap .aboutBookImg1 {
+  z-index: 2;
+}
+.aboutBook h2 {
+    max-width: 620px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 14px 0 0;
+    line-height: 1.2;
+}
+.colorSpan {
+    color: #36d9f7;
+}
+.aboutBookImgWrap .aboutBookImg1 {
+  z-index: 2;
+}
+.aboutBookImgWrap .aboutBookImg1 {
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  left: -64px;
+}
+.aboutBookImgWrap .aboutBookImg1{
+  object-fit:cover;
+  position:absolute;
+  width:90%;
+  max-width:600px;
+  top:0;
+}
+.height_all{
+  min-height:initial !important;
 }
 .pr{
+  
  left:4%
 }
 .gg{
@@ -581,6 +704,13 @@ text-align:center
 }
 .ne{
   right:2%;
+}
+.login-div{
+  margin-top:70px;
+}
+#jda {
+  max-height: 250px!important;
+  margin-left: 10px;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
