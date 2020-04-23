@@ -18,8 +18,6 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer') // v1.0.5
 const upload = multer({dest:path.join(path.dirname(__dirname),'public','images')}) // for parsing multipart/form-data
 
-
-
 const obj={
     url:null,
     status:'guest'
