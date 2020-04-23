@@ -1,1 +1,1 @@
- npm run ssr 
+web npm run ssrendering
