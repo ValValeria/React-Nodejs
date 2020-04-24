@@ -10,7 +10,7 @@ import regeneratorRuntime from "regenerator-runtime";
 import validator from 'validator'
 
 let app=express()
-const PORT=process.env.PORT||8000
+const PORT=process.env.PORT ||8000
 const dir=path.dirname(__dirname)
 const index=path.join(dir,'build','index.html')
 const bodyParser = require('body-parser')
