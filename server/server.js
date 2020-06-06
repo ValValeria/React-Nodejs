@@ -30,9 +30,9 @@ const user={
 }
 const mysql=require("mysql2").createPool({
     host: "remotemysql.com",
-    user: "C5CTjjXhqo",
-    password: "Eu6f3raCnq", 
-    database: "C5CTjjXhqo",
+    user: "******",
+    password: "*******", 
+    database: "*******",
     port:3306
 }).promise(); 
 
